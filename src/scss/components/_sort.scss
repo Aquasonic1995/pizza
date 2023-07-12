@@ -1,6 +1,6 @@
 @import '../variables';
 
-.sort {
+.sort { cursor: pointer;
   position: relative;
   &__label {
     display: flex;
@@ -22,15 +22,19 @@
   }
 
   &__popup {
+
+display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
     position: absolute;
     right: 0;
     margin-top: 15px;
     background: #ffffff;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.09);
     border-radius: 10px;
-    overflow: hidden;
-    padding: 10px 0;
+    padding:  0;
     width: 160px;
+    transition:  grid-template-rows 200ms ease;
 
     ul {
       overflow: hidden;
@@ -50,4 +54,10 @@
       }
     }
   }
+}
+.sort__popup.open{
+  grid-template-rows: 1fr;
+}
+.sort__popup div{
+  min-height: 0;
 }

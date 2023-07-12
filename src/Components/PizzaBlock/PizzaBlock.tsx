@@ -1,33 +1,56 @@
 import React, {useState} from "react";
+import {v1} from 'uuid';
 
-const PizzaBlock = ()=>{
+const typeNames = ['Традиционное', 'Тонкое']
+ export  type PizzaBLockType = {
+    title: string
+    price: number
+    imageUrl: string
+    sizes: Array<number>
+    types: Array<number>
+    id:number
+}
+
+const PizzaBlock = (props: PizzaBLockType) => {
+    const [activeTypeIndex, setActiveTypeIndex] = useState(0)
+    const [activeSizeIndex, setActiveSizeIndex] = useState(0)
     const [pizzaCount, setPizzaCount] = useState(0)
-    const setCount =() => {
+    const setCount = () => {
         setPizzaCount(pizzaCount + 1)
     }
-    return(
+    const onSizeClick = (index: number) => {
+        setActiveSizeIndex(index)
+    }
+
+    const onTypeClick = (index: number) => {
+        setActiveTypeIndex(index)
+    }
+    return (
         <div className="pizza-block">
             <img
                 className="pizza-block__image"
-                src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                src={props.imageUrl}
                 alt="Pizza"
             />
-            <h4 className="pizza-block__title">Чизбургер-пицца</h4>
+            <h4 className="pizza-block__title">{props.title}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    <li className="active">тонкое</li>
-                    <li>традиционное</li>
+                    {props.types.map((type, i) => (
+                        <li className={i === activeTypeIndex ? 'active' : ''}
+                            onClick={() => onTypeClick(i)} key={v1()}>{typeNames[type]}
+                            </li>
+                    ))}
                 </ul>
                 <ul>
-                    <li className="active">26 см.
-                    </li>
-                    <li>30 см.</li>
-                    <li>40 см.</li>
+                    {props.sizes.map((size, i) => (
+                        <li className={i === activeSizeIndex ? 'active' : ''}
+                            onClick={() => onSizeClick(i)} key={v1()}>{size}</li>
+                    ))}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
-                <div className="pizza-block__price">от 395 ₽</div>
-                <button  onClick={setCount} className="button button--outline button--add">
+                <div className="pizza-block__price">от {props.price} ₽</div>
+                <button onClick={setCount} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"

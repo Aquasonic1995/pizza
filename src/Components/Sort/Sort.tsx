@@ -1,9 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
+import {v1} from "uuid";
 
 const Sort = () => {
-    return(
-        <div className="sort">
-            <div className="sort__label">
+    const list=['популярности','цене','алфавиту']
+    const [open, setOpen] = useState(false)
+    const[listItem, setListItem]=useState(0)
+    const openToggle = () => {
+        setOpen(!open)
+    }
+    const onListClick = (value:number)=>{
+        setListItem(value)
+        openToggle()
+    }
+    return (
+        <div className='sort' >
+            <div className="sort__label" onClick={() => openToggle()}>
                 <svg
                     width="10"
                     height="6"
@@ -17,14 +28,17 @@ const Sort = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>популярности</span>
+                <span>{list[listItem]}</span>
             </div>
-            <div className="sort__popup">
-                <ul>
-                    <li className="active">популярности</li>
-                    <li>цене</li>
-                    <li>алфавиту</li>
-                </ul>
+            <div className={open ? 'sort__popup open' : 'sort__popup'}  >
+                <div>
+                    <ul>
+                        {list.map((value,i) => (
+                            <li className={listItem===i?'active':''} onClick={()=>onListClick(i)}  key={v1()}>{value}</li>
+                        ))}
+                    </ul>
+                </div>
+
             </div>
         </div>
     )
