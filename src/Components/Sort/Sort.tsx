@@ -1,19 +1,27 @@
 import React, {useState} from "react";
 import {v1} from "uuid";
 
-const Sort = () => {
-    const list=['популярности','цене','алфавиту']
+type SortType = {
+    value: { sort:string,
+    name:string}
+    onSortClick: (sort:{sort:string,name:string}) => void
+}
+const Sort = (props: SortType) => {
+
+    const list = [{
+        name: 'популярности',
+        sort: 'rating'
+    }, {
+        name: 'цене',
+        sort: 'price'
+    },
+        {name: 'алфавиту', sort: 'title'}]
     const [open, setOpen] = useState(false)
-    const[listItem, setListItem]=useState(0)
     const openToggle = () => {
         setOpen(!open)
     }
-    const onListClick = (value:number)=>{
-        setListItem(value)
-        openToggle()
-    }
     return (
-        <div className='sort' >
+        <div className='sort'>
             <div className="sort__label" onClick={() => openToggle()}>
                 <svg
                     width="10"
@@ -28,13 +36,15 @@ const Sort = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>{list[listItem]}</span>
+                <span>{props.value.name}</span>
             </div>
-            <div className={open ? 'sort__popup open' : 'sort__popup'}  >
+            <div className={open ? 'sort__popup open' : 'sort__popup'}>
                 <div>
                     <ul>
-                        {list.map((value,i) => (
-                            <li className={listItem===i?'active':''} onClick={()=>onListClick(i)}  key={v1()}>{value}</li>
+                        {list.map((obj, i) => (
+                            <li className={props.value.sort === obj.sort ? 'active' : ''}
+                                onClick={() => props.onSortClick(obj)}
+                                key={v1()}>{obj.name}</li>
                         ))}
                     </ul>
                 </div>

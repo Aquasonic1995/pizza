@@ -1,13 +1,14 @@
 import pizzaLogo from "../../img/pizza-logo.svg";
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
+import Search from "../Search/Search";
 
 const Header =()=> {
 
     return(
         <div className="header">
             <div className="container">
-                <Link to="/">
+                <Link to="/pizza">
                 <div className="header__logo">
                     <img width="38" src={pizzaLogo} alt="Pizza logo"/>
                     <div>
@@ -16,9 +17,9 @@ const Header =()=> {
                     </div>
                 </div>
                     </Link>
+                <Search/>
                 <div className="header__cart">
-                    <Link to="/cart">
-                    <a href="./cart.html" className="button button--cart">
+                    <Link to="/cart" className="button button--cart" >
                         <span>520 ₽</span>
                         <div className="button__delimiter"></div>
                         <svg
@@ -51,7 +52,6 @@ const Header =()=> {
                             />
                         </svg>
                         <span >3</span>
-                    </a>
                     </Link>
                 </div>
             </div>
