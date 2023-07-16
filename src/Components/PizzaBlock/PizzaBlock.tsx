@@ -1,22 +1,42 @@
 import React, {useState} from "react";
 import {v1} from 'uuid';
+import {useDispatch, useSelector} from "react-redux";
+import {addItem} from "../../Redux/Slices/cartSlice";
+import {RootState} from "../../Redux/store";
 
 const typeNames = ['Традиционное', 'Тонкое']
- export  type PizzaBLockType = {
+export  type PizzaBLockType = {
     title: string
     price: number
     imageUrl: string
     sizes: Array<number>
     types: Array<number>
-    id:number
+    id: number,
+
 }
 
 const PizzaBlock = (props: PizzaBLockType) => {
+    const dispatch = useDispatch()
     const [activeTypeIndex, setActiveTypeIndex] = useState(0)
     const [activeSizeIndex, setActiveSizeIndex] = useState(0)
-    const [pizzaCount, setPizzaCount] = useState(0)
-    const setCount = () => {
-        setPizzaCount(pizzaCount + 1)
+    // @ts-ignore
+    const cartItem = useSelector((state:RootState)=>state.cart.items.find((obj)=>obj.id===props.id))
+    // @ts-ignore
+    console.log(cartItem)
+    // @ts-ignore
+    const addCount = cartItem ? cartItem.totalCount : 0;
+    const onClickAdd = () => {
+        const pizza={
+            title:props.title,
+            id:props.id,
+            img:props.imageUrl,
+            type:typeNames[activeTypeIndex],
+            price:props.price,
+            size:activeSizeIndex,
+            totalCount:1
+        }
+        dispatch(addItem(pizza))
+
     }
     const onSizeClick = (index: number) => {
         setActiveSizeIndex(index)
@@ -38,7 +58,7 @@ const PizzaBlock = (props: PizzaBLockType) => {
                     {props.types.map((type, i) => (
                         <li className={i === activeTypeIndex ? 'active' : ''}
                             onClick={() => onTypeClick(i)} key={v1()}>{typeNames[type]}
-                            </li>
+                        </li>
                     ))}
                 </ul>
                 <ul>
@@ -50,7 +70,7 @@ const PizzaBlock = (props: PizzaBLockType) => {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {props.price} ₽</div>
-                <button onClick={setCount} className="button button--outline button--add">
+                <button onClick={onClickAdd} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -64,7 +84,7 @@ const PizzaBlock = (props: PizzaBLockType) => {
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>{pizzaCount}</i>
+                    <i>{addCount}</i>
                 </button>
             </div>
         </div>

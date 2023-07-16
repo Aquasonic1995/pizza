@@ -1,6 +1,9 @@
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootState} from "../Redux/store";
 
 const Cart = () => {
+
     return (
         <div className="cart">
             <div className="cart__top">

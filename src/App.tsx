@@ -5,13 +5,9 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import {Route, Routes} from "react-router-dom";
 import Cart from "./pages/Cart";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "./Redux/store";
 
 
 function App() {
-    const count = useSelector((state: RootState) => state.filter.value)
-    const dispatch = useDispatch()
     return (<div className="wrapper">
         <Header/>
         <div className="content">

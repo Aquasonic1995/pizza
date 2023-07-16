@@ -1,0 +1,29 @@
+.root {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 300px;
+
+  position: relative;
+}
+.root input{
+  border:none;
+    position: relative;
+  padding: 10px 15px;
+  width: 100%;
+}
+.closeIcon{
+  position: absolute;
+  top: 10px;
+  right:15px;
+  & :hover {
+  opacity: 1;
+  fill:black;
+}
+}
+.closeIcon  svg {
+  height: 25px;
+  width: auto;
+  opacity: 0.3;
+
+
+}

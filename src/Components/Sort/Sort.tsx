@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import {v1} from "uuid";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../Redux/store";
+import {onSortClick} from "../../Redux/Slices/filterSlice";
 
-type SortType = {
-    value: { sort:string,
-    name:string}
-    onSortClick: (sort:{sort:string,name:string}) => void
-}
-const Sort = (props: SortType) => {
+
+const Sort = () => {
+    const dispatch = useDispatch()
+    const sort = useSelector((state:RootState) => state.filter.sort)
 
     const list = [{
         name: 'популярности',
@@ -36,14 +37,14 @@ const Sort = (props: SortType) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>{props.value.name}</span>
+                <span>{sort.name}</span>
             </div>
             <div className={open ? 'sort__popup open' : 'sort__popup'}>
                 <div>
                     <ul>
                         {list.map((obj, i) => (
-                            <li className={props.value.sort === obj.sort ? 'active' : ''}
-                                onClick={() => props.onSortClick(obj)}
+                            <li className={sort.sort === obj.sort ? 'active' : ''}
+                                onClick={() => dispatch(onSortClick(obj))}
                                 key={v1()}>{obj.name}</li>
                         ))}
                     </ul>
