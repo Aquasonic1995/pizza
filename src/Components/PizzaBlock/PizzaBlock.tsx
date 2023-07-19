@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addItem} from "../../Redux/Slices/cartSlice";
 import {RootState} from "../../Redux/store";
 
-const typeNames = ['Традиционное', 'Тонкое']
+
 export  type PizzaBLockType = {
     title: string
     price: number
@@ -16,6 +16,7 @@ export  type PizzaBLockType = {
 }
 
 const PizzaBlock = (props: PizzaBLockType) => {
+    const typeNames = ['Традиционное', 'Тонкое']
     const dispatch = useDispatch()
     const [activeTypeIndex, setActiveTypeIndex] = useState(0)
     const [activeSizeIndex, setActiveSizeIndex] = useState(0)
@@ -24,7 +25,7 @@ const PizzaBlock = (props: PizzaBLockType) => {
     // @ts-ignore
     console.log(cartItem)
     // @ts-ignore
-    const addCount = cartItem ? cartItem.totalCount : 0;
+    const addCount = cartItem ? cartItem.count : 0;
     const onClickAdd = () => {
         const pizza={
             title:props.title,
@@ -33,7 +34,7 @@ const PizzaBlock = (props: PizzaBLockType) => {
             type:typeNames[activeTypeIndex],
             price:props.price,
             size:activeSizeIndex,
-            totalCount:1
+            count:1
         }
         dispatch(addItem(pizza))
 

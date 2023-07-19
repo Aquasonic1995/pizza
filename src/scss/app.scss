@@ -49,7 +49,10 @@ body {
   }
 
 }
+.cart .content__items{
+  grid-template-columns: repeat(1, 1fr);
 
+}
 .container {
   width: $container-width;
   margin: 0 auto;
@@ -164,7 +167,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 20%;
+      width: 10%;
 
       &-minus {
         svg {

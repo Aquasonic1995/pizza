@@ -12,9 +12,8 @@ const Home = () => {
     const [items, setItems] = useState<Array<PizzaBLockType> | never[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const categoryId = useSelector((state: RootState) => state.filter.categoryId)
-    const currentPage = useSelector((state: RootState) => state.filter.currentPage)
-    const sortType = useSelector((state: RootState) => state.filter.sort)
+    const {categoryId,sort,currentPage} = useSelector((state: RootState) => state.filter)
+
     const dispatch = useDispatch()
 
     const onChangePage = (page: number) => {
@@ -24,12 +23,12 @@ const Home = () => {
     useEffect(() => {
         setIsLoading(true)
         axios.get(`https://64a5716800c3559aa9bfb777.mockapi.io/items?page=${currentPage}&limit=4${categoryId > 0 ? `category=${categoryId}` : ``
-        }&sortBy=${sortType.sort}`)
+        }&sortBy=${sort.sort}`)
             .then((res) => {
                 setItems(res.data)
                 setIsLoading(false)
             })
-    }, [categoryId, sortType.sort,currentPage])
+    }, [categoryId, sort.sort,currentPage])
     console.log(items)
     return (<>
             <div className="content__top">

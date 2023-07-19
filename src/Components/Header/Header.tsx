@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../Redux/store";
 
 const Header =()=> {
-    const {items, totalPrice} = useSelector((state:RootState)=>state.cart)
+    const {totalCount, totalPrice} = useSelector((state:RootState)=>state.cart)
     return(
         <div className="header">
             <div className="container">
@@ -53,7 +53,7 @@ const Header =()=> {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <span >{items.length}</span>
+                        <span >{totalCount}</span>
                     </Link>
                 </div>
             </div>

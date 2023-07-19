@@ -18,7 +18,11 @@
   & :hover {
   opacity: 1;
   fill:black;
+
 }
+  &:active{
+    transform: translateY(1px)
+  }
 }
 .closeIcon  svg {
   height: 25px;
