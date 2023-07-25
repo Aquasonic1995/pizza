@@ -23,8 +23,6 @@ const PizzaBlock = (props: PizzaBLockType) => {
     // @ts-ignore
     const cartItem = useSelector((state:RootState)=>state.cart.items.find((obj)=>obj.id===props.id))
     // @ts-ignore
-    console.log(cartItem)
-    // @ts-ignore
     const addCount = cartItem ? cartItem.count : 0;
     const onClickAdd = () => {
         const pizza={

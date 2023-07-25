@@ -8,7 +8,7 @@ import {RootState} from "../../Redux/store";
 const Header =()=> {
     const {totalCount, totalPrice} = useSelector((state:RootState)=>state.cart)
     return(
-        <div className="header">
+        <div className="header" >
             <div className="container">
                 <Link to="/pizza">
                 <div className="header__logo">
