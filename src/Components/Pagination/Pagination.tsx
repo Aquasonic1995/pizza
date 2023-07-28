@@ -5,7 +5,7 @@ type PaginationProps = {
     currentPage: number;
     onChangePage: (page: number) => void;
 };
-const Pagination = (props:PaginationProps) => {
+const Pagination:React.FC<PaginationProps> = (props) => {
     return (
         <ReactPaginate
                        className={s.root}

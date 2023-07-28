@@ -1,23 +1,38 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {PizzaBLockType} from "../../Components/PizzaBlock/PizzaBlock";
 import axios from "axios";
+import {RootState} from "../store";
+import {SortListType} from "./filterSlice";
+export  type PizzaBLockType = {
+    title: string
+    price: number
+    imageUrl: string
+    sizes: Array<number>
+    types: Array<number>
+    id: number,
+}
 export interface PizzaState {
     items: Array<PizzaBLockType> | never,
-    status: string
+    status: 'loading' | 'completed' | 'error'
 }
 
 const initialState: PizzaState = {
     items: [],
-    status: '',
+    status: 'loading',
 }
-// @ts-ignore
+type FetchPizzaArgsType= {
+    category:string,
+    sortList:SortListType,
+    currentPage:number
+}
+
+
 export const fetchPizzas = createAsyncThunk(
-    'pizza/fetchPizzasById',   // @ts-ignore
-    async ({category, sort, currentPage}) => {
-        // @ts-ignore
-        const {data}     = await axios.get(`https://64a5716800c3559aa9bfb777.mockapi.io/items?page=${currentPage}&limit=4&${category
-        }&sortBy=${sort.sort}`)
-        return data
+    'pizza/fetchPizzasById',
+    async ( args:FetchPizzaArgsType) => {
+        const   {category, sortList, currentPage} = args
+        const {data}  = await axios.get(`https://64a5716800c3559aa9bfb777.mockapi.io/items?page=${currentPage}&limit=4&${category
+        }&sortBy=${sortList.sort}`)
+        return data as Array<PizzaBLockType>
     }
 )
 
@@ -48,7 +63,7 @@ export const pizzaSlice = createSlice({
         }
     }
 })
-
+export const selectPizza = (state: RootState) => state.pizza
 // Action creators are generated for each case reducer function
 export const {} = pizzaSlice.actions
 

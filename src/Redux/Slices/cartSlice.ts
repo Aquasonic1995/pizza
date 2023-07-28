@@ -1,20 +1,22 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {RootState} from "../store";
 
 
 export interface CartState {
-    items: Array<cartItemType> | never,
+    items: Array<CartItemType> | never,
     totalPrice: number,
     totalCount: number
 }
 
 
-type cartItemType = {
+export type CartItemType = {
     id: number,
     title: string,
-    img: string,
+    imageUrl: string,
     count: number,
     type: string,
     price: number,
+    size:number
 
 }
 
@@ -29,19 +31,20 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItem(state, action) {
-            if (!state.items.find(obj => obj.id === action.payload.id)) {
-                state.items.push(action.payload)
-                state.totalCount++
+        addItem(state, action:PayloadAction<CartItemType>) {
+            const findItem = state.items.find(obj => obj.id === action.payload.id)
+            if (findItem) {
+                    findItem.count++
+                    state.totalCount++
             } else {
-                {// @ts-ignore
-                    state.items.find(obj => obj.id === action.payload.id).count++
+                {
+                    state.items.push(action.payload)
                     state.totalCount++
                 }
             }
             state.totalPrice = state.totalPrice + action.payload.price
         },
-        removeItem(state, action) {
+        removeItem(state, action:PayloadAction<CartItemType>) {
             let findItem = state.items.find(obj => obj.id === action.payload.id)
             if (findItem) {
                 state.totalCount = state.totalCount - findItem.count;
@@ -56,7 +59,7 @@ export const cartSlice = createSlice({
             state.totalPrice = 0
             state.totalCount = 0
         },
-        itemDecrement(state, action) {
+        itemDecrement(state, action:PayloadAction<CartItemType>) {
             let findItem = state.items.find(obj => obj.id === action.payload.id)
             if (findItem) {
                 findItem.count--
@@ -64,7 +67,7 @@ export const cartSlice = createSlice({
                 state.totalPrice -= findItem.price
             }
         },
-        itemIncrement(state, action) {
+        itemIncrement(state, action:PayloadAction<CartItemType>) {
             let findItem = state.items.find(obj => obj.id === action.payload.id)
             if (findItem) {
                 findItem.count++
@@ -74,8 +77,9 @@ export const cartSlice = createSlice({
         }
     },
 })
-
+export const selectCart = (state:RootState) => state.cart
+export const selectCartItemById = (id:number)=> (state:RootState)=> state.cart.items.find((obj)=>obj.id===id)
 // Action creators are generated for each case reducer function
-export const {addItem, removeItem, clearItems, itemDecrement,itemIncrement} = cartSlice.actions
+export const {addItem, removeItem, clearItems, itemDecrement, itemIncrement} = cartSlice.actions
 
 export default cartSlice.reducer

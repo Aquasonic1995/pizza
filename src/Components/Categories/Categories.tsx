@@ -1,17 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 
 type CategoryType = {
     value: number
     onCategoryClick: (id: number) => void
 }
 
-const Categories = (props: CategoryType) => {
-
-    const [activeIndex, setActiveIndex] = useState(0)
+const Categories: React.FC<CategoryType> = (props) => {
     const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
-    const onCategoryClick = (index: number) => {
-        setActiveIndex(index)
-    }
     return (
         <div className="categories">
             <ul>

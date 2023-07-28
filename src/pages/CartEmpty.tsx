@@ -1,11 +1,13 @@
 import React from 'react';
 
-function CartEmpty() {
+const CartEmpty:React.FC = () => {
     return (<>
-        <div>В корзине ничего нет. Вернитесь на страницу заказа.</div>
-        <button><a href="/pizza">Заказать пиццу</a></button>
+            <div>В корзине ничего нет. Вернитесь на страницу заказа.</div>
+            <button><a href="/pizza">Заказать пиццу</a></button>
         </>
     );
+
 }
+
 
 export default CartEmpty;

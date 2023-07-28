@@ -1,15 +1,28 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {v1} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../Redux/store";
-import {onSortClick} from "../../Redux/Slices/filterSlice";
+import {SortListType, selectFilter, setSort} from "../../Redux/Slices/filterSlice";
+import {useOnClickOutside} from "usehooks-ts";
 
 
-const Sort = () => {
+const Sort:React.FC = () => {
     const dispatch = useDispatch()
-    const sort = useSelector((state:RootState) => state.filter.sort)
+    const {sortList} = useSelector(selectFilter)
+    const onSortClick = (obj: SortListType) => {
+        dispatch(setSort(obj))
+        setOpen(false)
+    }
+    const ref = useRef<HTMLDivElement>(null)
 
-    const list = [{
+    const handleClickOutside = () => {
+        setOpen(false)
+        console.log('clicked outside')
+
+    }
+
+    useOnClickOutside(ref, handleClickOutside)
+
+    const list: Array<SortListType> = [{
         name: 'популярности',
         sort: 'rating'
     }, {
@@ -17,13 +30,15 @@ const Sort = () => {
         sort: 'price'
     },
         {name: 'алфавиту', sort: 'title'}]
+
     const [open, setOpen] = useState(false)
     const openToggle = () => {
         setOpen(!open)
+
     }
     return (
-        <div className='sort'>
-            <div className="sort__label" onClick={() => openToggle()}>
+        <div className='sort' ref={ref}>
+            <div className="sort__label" onClick={openToggle}>
                 <svg
                     width="10"
                     height="6"
@@ -37,14 +52,14 @@ const Sort = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span>{sort.name}</span>
+                <span>{sortList.name}</span>
             </div>
             <div className={open ? 'sort__popup open' : 'sort__popup'}>
                 <div>
                     <ul>
                         {list.map((obj, i) => (
-                            <li className={sort.sort === obj.sort ? 'active' : ''}
-                                onClick={() => dispatch(onSortClick(obj))}
+                            <li className={sortList.sort === obj.sort ? 'active' : ''}
+                                onClick={() => onSortClick(obj)}
                                 key={v1()}>{obj.name}</li>
                         ))}
                     </ul>

@@ -1,38 +1,26 @@
 import React, {useState} from "react";
 import {v1} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
-import {addItem} from "../../Redux/Slices/cartSlice";
-import {RootState} from "../../Redux/store";
+import {addItem, CartItemType, selectCartItemById} from "../../Redux/Slices/cartSlice";
+import {Link} from "react-router-dom";
+import {PizzaBLockType} from "../../Redux/Slices/pizzaSlice";
 
-
-export  type PizzaBLockType = {
-    title: string
-    price: number
-    imageUrl: string
-    sizes: Array<number>
-    types: Array<number>
-    id: number,
-
-}
-
-const PizzaBlock = (props: PizzaBLockType) => {
+const PizzaBlock:React.FC<PizzaBLockType> = (props) => {
     const typeNames = ['Традиционное', 'Тонкое']
     const dispatch = useDispatch()
-    const [activeTypeIndex, setActiveTypeIndex] = useState(0)
-    const [activeSizeIndex, setActiveSizeIndex] = useState(0)
-    // @ts-ignore
-    const cartItem = useSelector((state:RootState)=>state.cart.items.find((obj)=>obj.id===props.id))
-    // @ts-ignore
-    const addCount = cartItem ? cartItem.count : 0;
+    const [activeTypeIndex, setActiveTypeIndex] = useState<number>(0)
+    const [activeSizeIndex, setActiveSizeIndex] = useState<number>(0)
+    const cartItem = useSelector(selectCartItemById(props.id))
+    const addCount = cartItem?.count ? cartItem.count : 0;
     const onClickAdd = () => {
-        const pizza={
-            title:props.title,
-            id:props.id,
-            img:props.imageUrl,
-            type:typeNames[activeTypeIndex],
-            price:props.price,
-            size:activeSizeIndex,
-            count:1
+        const pizza:CartItemType = {
+            title: props.title,
+            id: props.id,
+            imageUrl: props.imageUrl,
+            type: typeNames[activeTypeIndex],
+            price: props.price,
+            size: props.sizes[activeSizeIndex],
+            count: 1
         }
         dispatch(addItem(pizza))
 
@@ -46,11 +34,13 @@ const PizzaBlock = (props: PizzaBLockType) => {
     }
     return (
         <div className="pizza-block">
-            <img
-                className="pizza-block__image"
-                src={props.imageUrl}
-                alt="Pizza"
-            />
+            <Link to={`/pizza/${props.id}`}>
+                <img
+                    className="pizza-block__image"
+                    src={props.imageUrl}
+                    alt="Pizza"
+                />
+            </Link>
             <h4 className="pizza-block__title">{props.title}</h4>
             <div className="pizza-block__selector">
                 <ul>

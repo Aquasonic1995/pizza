@@ -1,25 +1,24 @@
 import s from "./Search.module.scss"
-import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {useDebounce} from "usehooks-ts";
+import React, {ChangeEvent, ChangeEventHandler, useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {selectFilter, setSearchValue} from "../../Redux/Slices/filterSlice";
 
-const Search = () => {
-    const [searchValue, setSearchValue] = useState('')
-    const debouncedValue = useDebounce<string>(searchValue, 1000)
+const Search:React.FC = () => {
+    const {searchValue} = useSelector(selectFilter)
+
+    const dispatch = useDispatch()
     const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(event.target.value)
+        dispatch(setSearchValue(event.target.value))
     }
     const onClickClear = () => {
-        setSearchValue('')
+        dispatch(setSearchValue(''))
         if (inputRef.current) inputRef.current.focus()
     }
-    useEffect(() => {
-        console.log(111121)
-    }, [debouncedValue])
     const inputRef = useRef<HTMLInputElement>(null)
     return (
         <div className={s.root}>
             <input value={searchValue} ref={inputRef} placeholder="Поиск пиццы..." onChange={onSearchChange}/>
-            <div className={s.closeIcon} onClick={onClickClear} >
+            <div className={s.closeIcon} onClick={onClickClear}>
                 {searchValue && <svg width="800px" height="800px" viewBox="0 -0.5 25 25" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                     <path
