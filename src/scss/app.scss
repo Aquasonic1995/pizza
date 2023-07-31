@@ -175,6 +175,16 @@ body {
             display: none;
           }
         }
+        &--disabled {
+          opacity: 0.4;
+          &:hover {
+            background: #ffffff;
+          }
+          &:active{
+            transform: translateY(0px);
+            
+          }
+        }
       }
 
       b {
@@ -262,7 +272,6 @@ body {
 
         span {
           color: darken($color: $gray-line, $amount: 20);
-          font-weight: 500;
           font-weight: 600;
         }
 
@@ -311,7 +320,7 @@ body {
       color: #777777;
     }
 
-    icon {
+    .icon {
       position: relative;
       top: 2px;
     }

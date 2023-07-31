@@ -2,18 +2,19 @@ import Categories from "../Components/Categories/Categories";
 import Sort from "../Components/Sort/Sort";
 import React, {useEffect, useState} from "react";
 import PizzaBlock from "../Components/PizzaBlock/PizzaBlock";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {selectFilter, setCategoryId, setCurrentPage} from "../Redux/Slices/filterSlice";
 import Pagination from "../Components/Pagination/Pagination";
 import {fetchPizzas, PizzaBLockType, selectPizza} from "../Redux/Slices/pizzaSlice";
 import {useDebounce} from "usehooks-ts";
+import {useAppDisPatch} from "../Redux/store";
 
 const Home = () => {
     const [isLoading, setIsLoading] = useState(true)
     const {categoryId, sortList, currentPage, searchValue} = useSelector(selectFilter)
     const debouncedValue = useDebounce<string>(searchValue, 1000)
     const {items, status} = useSelector(selectPizza)
-    const dispatch = useDispatch()
+    const dispatch = useAppDisPatch()
     const onChangePage = (page: number) => {
         dispatch(setCurrentPage(page))
     }
@@ -21,7 +22,7 @@ const Home = () => {
         const category = categoryId > 0 ? `category=${categoryId}` : ``
         setIsLoading(true)
 
-        // @ts-ignore
+
         dispatch(fetchPizzas({
             category,
             sortList,
@@ -55,6 +56,5 @@ const Home = () => {
             <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </>
     )
-
 }
 export default Home

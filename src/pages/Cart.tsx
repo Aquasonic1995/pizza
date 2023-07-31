@@ -10,6 +10,7 @@ import {
 } from "../Redux/Slices/cartSlice";
 import CartEmpty from "./CartEmpty";
 import React from "react";
+import {clsx} from "clsx";
 
 const Cart:React.FC = () => {
 
@@ -81,7 +82,9 @@ const Cart:React.FC = () => {
                                 <p>тонкое тесто, {item.size} см.</p>
                             </div>
                             <div className="cart__item-count">
-                                <div className="button button--outline button--circle cart__item-count-minus"
+                                <div className={clsx("button button--outline button--circle cart__item-count-minus",{
+                                   " cart__item-count-minus--disabled button--outline--disabled ": item.count===1
+                                })}
                                      onClick={() => itemCountDecrement(item)}>
                                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
