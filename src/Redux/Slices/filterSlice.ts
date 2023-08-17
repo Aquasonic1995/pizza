@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../store";
+
  export type SortListType = {
     name: 'популярности' | 'цене' | 'алфавиту'
     sort:  'rating' | 'price' | 'title'
